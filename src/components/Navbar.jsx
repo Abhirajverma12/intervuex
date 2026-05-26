@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 function Navbar() {
@@ -7,21 +8,32 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <div className="text-xl font-bold">
+        <Link to="/" className="text-xl font-bold">
           ⚡ <span className="text-indigo-500">Intervuex</span>
-        </div>
+        </Link>
 
         <div className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
-          <a href="#" className="hover:text-white">Platform</a>
-          <a href="#" className="hover:text-white">Features</a>
-          <a href="#" className="hover:text-white">Security</a>
-          <a href="#" className="hover:text-white">About</a>
+          <Link to="/" className="hover:text-white">
+            Platform
+          </Link>
+          <Link to="/" className="hover:text-white">
+            Features
+          </Link>
+          <Link to="/dashboard" className="hover:text-white">
+            Dashboard
+          </Link>
+          <Link to="/login" className="hover:text-white">
+            Login
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="hidden rounded-xl bg-indigo-600 px-5 py-2 text-sm font-medium hover:bg-indigo-500 md:block">
+          <Link
+            to="/dashboard"
+            className="hidden rounded-xl bg-indigo-600 px-5 py-2 text-sm font-medium hover:bg-indigo-500 md:block"
+          >
             Enter App
-          </button>
+          </Link>
 
           <button
             className="md:hidden"
@@ -35,14 +47,26 @@ function Navbar() {
       {isMenuOpen && (
         <div className="border-t border-white/10 bg-slate-950 px-6 py-5 md:hidden">
           <div className="flex flex-col gap-5 text-sm text-slate-300">
-            <a href="#" className="hover:text-white">Platform</a>
-            <a href="#" className="hover:text-white">Features</a>
-            <a href="#" className="hover:text-white">Security</a>
-            <a href="#" className="hover:text-white">About</a>
+            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+              Platform
+            </Link>
+            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+              Features
+            </Link>
+            <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+              Dashboard
+            </Link>
+            <Link to="/login" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+              Login
+            </Link>
 
-            <button className="mt-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-medium hover:bg-indigo-500">
+            <Link
+              to="/dashboard"
+              onClick={() => setIsMenuOpen(false)}
+              className="mt-2 rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-medium hover:bg-indigo-500"
+            >
               Enter App
-            </button>
+            </Link>
           </div>
         </div>
       )}
