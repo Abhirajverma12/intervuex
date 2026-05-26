@@ -4,6 +4,8 @@ import Features from "./components/Features";
 import HowItWorks from "./components/HowItWorks";
 import Footer from "./components/Footer";
 import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Features />
       <HowItWorks />
       <Dashboard />
+      <Login />
+      <Signup />
       <Footer />
     </div>
   );
