@@ -5,20 +5,25 @@ import { Menu, X } from "lucide-react";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const goToTop = () => {
+    setIsMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <nav className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="text-xl font-bold">
+        <Link to="/" onClick={goToTop} className="text-xl font-bold">
           ⚡ <span className="text-indigo-500">Intervuex</span>
         </Link>
 
         <div className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
-          <Link to="/" className="hover:text-white">
+          <a href="/#platform" className="hover:text-white">
             Platform
-          </Link>
-          <Link to="/" className="hover:text-white">
+          </a>
+          <a href="/#features" className="hover:text-white">
             Features
-          </Link>
+          </a>
           <Link to="/dashboard" className="hover:text-white">
             Dashboard
           </Link>
@@ -47,16 +52,32 @@ function Navbar() {
       {isMenuOpen && (
         <div className="border-t border-white/10 bg-slate-950 px-6 py-5 md:hidden">
           <div className="flex flex-col gap-5 text-sm text-slate-300">
-            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+            <a
+              href="/#platform"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-white"
+            >
               Platform
-            </Link>
-            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+            </a>
+            <a
+              href="/#features"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-white"
+            >
               Features
-            </Link>
-            <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+            </a>
+            <Link
+              to="/dashboard"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-white"
+            >
               Dashboard
             </Link>
-            <Link to="/login" onClick={() => setIsMenuOpen(false)} className="hover:text-white">
+            <Link
+              to="/login"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-white"
+            >
               Login
             </Link>
 

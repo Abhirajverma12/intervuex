@@ -1,6 +1,6 @@
 function Features() {
   return (
-    <section className="px-6 py-24 bg-slate-950 text-white">
+    <section id="features" className="px-6 py-24 bg-slate-950 text-white">
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
         <div className="text-center">
