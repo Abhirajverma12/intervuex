@@ -1,3 +1,4 @@
+import InterviewRoom from "./pages/InterviewRoom";
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/interview-room" element={<InterviewRoom />} />
       </Routes>
 
       <Footer />

@@ -27,6 +27,9 @@ function Navbar() {
           <Link to="/dashboard" className="hover:text-white">
             Dashboard
           </Link>
+          <Link to="/interview-room" className="hover:text-white">
+            Interview Room
+          </Link>
           <Link to="/login" className="hover:text-white">
             Login
           </Link>
@@ -34,10 +37,10 @@ function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link
-            to="/dashboard"
+            to="/interview-room"
             className="hidden rounded-xl bg-indigo-600 px-5 py-2 text-sm font-medium hover:bg-indigo-500 md:block"
           >
-            Enter App
+            Start Interview
           </Link>
 
           <button
@@ -74,6 +77,13 @@ function Navbar() {
               Dashboard
             </Link>
             <Link
+              to="/interview-room"
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-white"
+            >
+              Interview Room
+            </Link>
+            <Link
               to="/login"
               onClick={() => setIsMenuOpen(false)}
               className="hover:text-white"
@@ -82,11 +92,11 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/dashboard"
+              to="/interview-room"
               onClick={() => setIsMenuOpen(false)}
               className="mt-2 rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-medium hover:bg-indigo-500"
             >
-              Enter App
+              Start Interview
             </Link>
           </div>
         </div>
