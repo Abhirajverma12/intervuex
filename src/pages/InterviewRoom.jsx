@@ -25,6 +25,9 @@ vector<int> twoSum(vector<int>& nums, int target) {
 function InterviewRoom() {
   const [language, setLanguage] = useState("javascript");
   const [timeLeft, setTimeLeft] = useState(45 * 60);
+  const [isRunning, setIsRunning] = useState(false);
+  const [output, setOutput] = useState("Run your code to see output here.");
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,6 +49,28 @@ function InterviewRoom() {
     const remainingSeconds = seconds % 60;
 
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
+  const handleRunCode = () => {
+    setIsRunning(true);
+    setStats(null);
+    setOutput("Running test cases...");
+
+    setTimeout(() => {
+      setIsRunning(false);
+
+      setOutput(`Test Case 1 Passed ✅
+Input: nums = [2, 7, 11, 15], target = 9
+Expected Output: [0, 1]
+Your Output: [0, 1]`);
+
+      setStats({
+        testCases: "1/1",
+        runtime: "52 ms",
+        memory: "42 MB",
+        score: "100%",
+      });
+    }, 1200);
   };
 
   return (
@@ -111,7 +136,11 @@ function InterviewRoom() {
               <div className="flex flex-wrap gap-3">
                 <select
                   value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
+                  onChange={(e) => {
+                    setLanguage(e.target.value);
+                    setOutput("Run your code to see output here.");
+                    setStats(null);
+                  }}
                   className="rounded-lg border border-white/10 bg-slate-900 px-4 py-2 text-sm text-white outline-none"
                 >
                   <option value="javascript">JavaScript</option>
@@ -120,9 +149,14 @@ function InterviewRoom() {
                   <option value="python">Python</option>
                 </select>
 
-                <button className="rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
-                  Run Code
+                <button
+                  onClick={handleRunCode}
+                  disabled={isRunning}
+                  className="rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isRunning ? "Running..." : "Run Code"}
                 </button>
+
                 <button className="rounded-lg bg-indigo-600 px-4 py-2 text-sm hover:bg-indigo-500">
                   Submit
                 </button>
@@ -146,10 +180,42 @@ function InterviewRoom() {
 
             <div className="mt-4 rounded-xl border border-white/10 bg-slate-900 p-4">
               <p className="text-sm font-medium text-slate-300">Output</p>
-              <p className="mt-2 text-sm text-slate-500">
-                Run your code to see output here.
-              </p>
+              <pre className="mt-2 whitespace-pre-wrap text-sm text-slate-400">
+                {output}
+              </pre>
             </div>
+
+            {stats && (
+              <div className="mt-4 grid gap-4 rounded-xl border border-green-500/20 bg-green-500/5 p-4 md:grid-cols-4">
+                <div>
+                  <p className="text-xs text-slate-400">Test Cases</p>
+                  <p className="mt-1 font-semibold text-green-400">
+                    {stats.testCases}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs text-slate-400">Runtime</p>
+                  <p className="mt-1 font-semibold text-white">
+                    {stats.runtime}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs text-slate-400">Memory</p>
+                  <p className="mt-1 font-semibold text-white">
+                    {stats.memory}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs text-slate-400">Score</p>
+                  <p className="mt-1 font-semibold text-green-400">
+                    {stats.score}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
