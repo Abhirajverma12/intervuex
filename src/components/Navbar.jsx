@@ -21,15 +21,19 @@ function Navbar() {
           <a href="/#platform" className="hover:text-white">
             Platform
           </a>
+
           <a href="/#features" className="hover:text-white">
             Features
           </a>
+
           <Link to="/dashboard" className="hover:text-white">
             Dashboard
           </Link>
-          <Link to="/interview-room" className="hover:text-white">
-            Interview Room
+
+          <Link to="/interview-setup" className="hover:text-white">
+            Interview Setup
           </Link>
+
           <Link to="/login" className="hover:text-white">
             Login
           </Link>
@@ -37,7 +41,7 @@ function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link
-            to="/interview-room"
+            to="/interview-setup"
             className="hidden rounded-xl bg-indigo-600 px-5 py-2 text-sm font-medium hover:bg-indigo-500 md:block"
           >
             Start Interview
@@ -62,6 +66,7 @@ function Navbar() {
             >
               Platform
             </a>
+
             <a
               href="/#features"
               onClick={() => setIsMenuOpen(false)}
@@ -69,6 +74,7 @@ function Navbar() {
             >
               Features
             </a>
+
             <Link
               to="/dashboard"
               onClick={() => setIsMenuOpen(false)}
@@ -76,13 +82,15 @@ function Navbar() {
             >
               Dashboard
             </Link>
+
             <Link
-              to="/interview-room"
+              to="/interview-setup"
               onClick={() => setIsMenuOpen(false)}
               className="hover:text-white"
             >
-              Interview Room
+              Interview Setup
             </Link>
+
             <Link
               to="/login"
               onClick={() => setIsMenuOpen(false)}
@@ -92,7 +100,7 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/interview-room"
+              to="/interview-setup"
               onClick={() => setIsMenuOpen(false)}
               className="mt-2 rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-medium hover:bg-indigo-500"
             >

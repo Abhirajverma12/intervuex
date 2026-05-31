@@ -1,28 +1,34 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
+import { problems } from "../data/problems";
 
 const codeSnippets = {
-  javascript: `function twoSum(nums, target) {
+  javascript: `function solve() {
   // Write your solution here
   
 }`,
   cpp: `#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> twoSum(vector<int>& nums, int target) {
+void solve() {
     // Write your solution here
 }`,
   java: `class Solution {
-    public int[] twoSum(int[] nums, int target) {
+    public void solve() {
         // Write your solution here
     }
 }`,
-  python: `def two_sum(nums, target):
+  python: `def solve():
     # Write your solution here
     pass`,
 };
 
 function InterviewRoom() {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category") || "dsa";
+  const problem = problems[category] || problems.dsa;
+
   const [language, setLanguage] = useState("javascript");
   const [timeLeft, setTimeLeft] = useState(45 * 60);
   const [isRunning, setIsRunning] = useState(false);
@@ -60,9 +66,9 @@ function InterviewRoom() {
       setIsRunning(false);
 
       setOutput(`Test Case 1 Passed ✅
-Input: nums = [2, 7, 11, 15], target = 9
-Expected Output: [0, 1]
-Your Output: [0, 1]`);
+Problem: ${problem.title}
+Expected Output: ${problem.example}
+Your Output: Mock output matched successfully`);
 
       setStats({
         testCases: "1/1",
@@ -79,12 +85,10 @@ Your Output: [0, 1]`);
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-medium text-indigo-400">
-              Interview Room
+              Interview Room · {category.toUpperCase()}
             </p>
 
-            <h1 className="mt-2 text-3xl font-bold">
-              Frontend Developer Mock Interview
-            </h1>
+            <h1 className="mt-2 text-3xl font-bold">{problem.title}</h1>
 
             <p className="mt-2 text-slate-400">
               Solve the problem, collaborate live, and review your interview
@@ -104,22 +108,23 @@ Your Output: [0, 1]`);
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 lg:col-span-1">
             <h2 className="text-xl font-semibold">Problem Statement</h2>
 
-            <p className="mt-4 text-slate-400">
-              Given an array of integers and a target value, return the indices
-              of two numbers that add up to the target.
-            </p>
+            <p className="mt-4 text-slate-400">{problem.description}</p>
 
             <div className="mt-6 rounded-xl bg-slate-900 p-4">
-              <p className="text-sm text-slate-300">
-                Example: nums = [2, 7, 11, 15], target = 9
-              </p>
-              <p className="mt-2 text-sm text-slate-300">Output: [0, 1]</p>
+              <p className="text-sm font-medium text-slate-300">Example</p>
+              <p className="mt-2 text-sm text-slate-400">{problem.example}</p>
             </div>
 
             <div className="mt-6">
               <p className="text-sm font-medium text-slate-300">Difficulty</p>
-              <span className="mt-2 inline-block rounded-full bg-green-500/10 px-3 py-1 text-sm text-green-400">
-                Easy
+              <span
+                className={`mt-2 inline-block rounded-full px-3 py-1 text-sm ${
+                  problem.difficulty === "Easy"
+                    ? "bg-green-500/10 text-green-400"
+                    : "bg-yellow-500/10 text-yellow-400"
+                }`}
+              >
+                {problem.difficulty}
               </span>
             </div>
           </div>

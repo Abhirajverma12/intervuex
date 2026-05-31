@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const interviewHistory = [
   {
     title: "Two Sum Mock Interview",
@@ -42,9 +44,12 @@ function Dashboard() {
             </p>
           </div>
 
-          <button className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-medium hover:bg-indigo-500">
+          <Link
+            to="/interview-setup"
+            className="rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-medium hover:bg-indigo-500"
+          >
             Start New Interview
-          </button>
+          </Link>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-4">
