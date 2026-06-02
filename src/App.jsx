@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Landing from "./pages/Landing";
 import InterviewRoom from "./pages/InterviewRoom";
 import InterviewSetup from "./pages/InterviewSetup";
+import AttemptDetails from "./pages/AttemptDetails";
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/interview-room" element={<InterviewRoom />} />
         <Route path="/interview-setup" element={<InterviewSetup />} />
+        <Route path="/interview-room" element={<InterviewRoom />} />
+        <Route path="/attempt-details" element={<AttemptDetails />} />
       </Routes>
 
       <Footer />

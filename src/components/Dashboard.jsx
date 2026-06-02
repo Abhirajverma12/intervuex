@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const interviewHistory = [
+const defaultInterviewHistory = [
   {
     title: "Two Sum Mock Interview",
+    category: "DSA",
     language: "JavaScript",
     score: "100%",
     status: "Completed",
@@ -10,6 +12,7 @@ const interviewHistory = [
   },
   {
     title: "Array & Strings Practice",
+    category: "DSA",
     language: "C++",
     score: "86%",
     status: "Completed",
@@ -17,6 +20,7 @@ const interviewHistory = [
   },
   {
     title: "Dynamic Programming Round",
+    category: "DSA",
     language: "Java",
     score: "Pending",
     status: "In Progress",
@@ -25,6 +29,31 @@ const interviewHistory = [
 ];
 
 function Dashboard() {
+  const [interviewHistory] = useState(() => {
+    const savedResults = JSON.parse(
+      localStorage.getItem("interviewResults") || "[]"
+    );
+
+    return savedResults.length > 0 ? savedResults : defaultInterviewHistory;
+  });
+
+  const completedInterviews = interviewHistory.filter(
+    (item) => item.status === "Completed"
+  );
+
+  const averageScore =
+    completedInterviews.length > 0
+      ? Math.round(
+          completedInterviews.reduce(
+            (sum, item) =>
+              sum + parseInt(item.score?.replace("%", "") || "0"),
+            0
+          ) / completedInterviews.length
+        )
+      : 0;
+
+  const practiceHours = (interviewHistory.length * 0.75).toFixed(1);
+
   return (
     <section className="bg-slate-950 px-6 py-24 text-white">
       <div className="mx-auto max-w-7xl">
@@ -55,22 +84,26 @@ function Dashboard() {
         <div className="mt-12 grid gap-6 md:grid-cols-4">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <p className="text-sm text-slate-400">Total Interviews</p>
-            <h3 className="mt-3 text-4xl font-bold">24</h3>
+            <h3 className="mt-3 text-4xl font-bold">
+              {interviewHistory.length}
+            </h3>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <p className="text-sm text-slate-400">Practice Hours</p>
-            <h3 className="mt-3 text-4xl font-bold">18h</h3>
+            <h3 className="mt-3 text-4xl font-bold">{practiceHours}h</h3>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <p className="text-sm text-slate-400">Avg Score</p>
-            <h3 className="mt-3 text-4xl font-bold">86%</h3>
+            <h3 className="mt-3 text-4xl font-bold">{averageScore}%</h3>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <p className="text-sm text-slate-400">Problems Solved</p>
-            <h3 className="mt-3 text-4xl font-bold">42</h3>
+            <h3 className="mt-3 text-4xl font-bold">
+              {completedInterviews.length}
+            </h3>
           </div>
         </div>
 
@@ -78,19 +111,24 @@ function Dashboard() {
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 lg:col-span-2">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-semibold">Interview History</h3>
-              <span className="text-sm text-slate-400">Last 7 days</span>
+              <span className="text-sm text-slate-400">Saved attempts</span>
             </div>
 
             <div className="mt-6 space-y-4">
               {interviewHistory.map((item, index) => (
-                <div
-                  key={index}
-                  className="grid gap-4 rounded-xl bg-slate-900 p-4 md:grid-cols-5 md:items-center"
+                <Link
+                    to={`/attempt-details?index=${index}`}
+                    key={index}
+                    className="grid gap-4 rounded-xl bg-slate-900 p-4 transition hover:bg-slate-800 md:grid-cols-6 md:items-center"
                 >
                   <div className="md:col-span-2">
                     <p className="font-medium text-white">{item.title}</p>
                     <p className="mt-1 text-sm text-slate-400">{item.date}</p>
                   </div>
+
+                  <p className="text-sm text-slate-300">
+                    {item.category || "DSA"}
+                  </p>
 
                   <p className="text-sm text-slate-300">{item.language}</p>
 
@@ -107,7 +145,7 @@ function Dashboard() {
                   <p className="text-sm font-semibold text-indigo-400">
                     {item.score}
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
