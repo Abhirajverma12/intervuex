@@ -84,20 +84,12 @@ function InterviewRoom() {
   const category = searchParams.get("category") || "dsa";
   const questionList = problems[category] || problems.dsa;
 
-  const getRandomProblem = () => {
-  const randomIndex = Math.floor(Math.random() * questionList.length);
-  return questionList[randomIndex];
-};
+  const getRandomQuestionIndex = () => {
+    return Math.floor(Math.random() * questionList.length);
+  };
 
-  const [problem, setProblem] = useState(getRandomProblem);
-  const handleNextQuestion = () => {
-  setProblem(getRandomProblem());
-  setOutput("Run your code to see output here.");
-  setStats(null);
-  setSubmission(null);
-  setAiFeedback(null);
-};
-
+  const [questionIndex, setQuestionIndex] = useState(getRandomQuestionIndex);
+  const problem = questionList[questionIndex];
 
   const feedback = feedbackTemplates[category] || feedbackTemplates.dsa;
 
@@ -151,6 +143,26 @@ function InterviewRoom() {
       "interviewResults",
       JSON.stringify([result, ...previousResults])
     );
+  };
+
+  const resetQuestionState = () => {
+    setOutput("Run your code to see output here.");
+    setStats(null);
+    setSubmission(null);
+    setAiFeedback(null);
+  };
+
+  const handleNextQuestion = () => {
+    let nextIndex = getRandomQuestionIndex();
+
+    if (questionList.length > 1) {
+      while (nextIndex === questionIndex) {
+        nextIndex = getRandomQuestionIndex();
+      }
+    }
+
+    setQuestionIndex(nextIndex);
+    resetQuestionState();
   };
 
   const handleRunCode = () => {
@@ -230,7 +242,13 @@ Score: ${result.score}`);
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 lg:col-span-1">
-            <h2 className="text-xl font-semibold">Problem Statement</h2>
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-xl font-semibold">Problem Statement</h2>
+
+              <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
+                Question {questionIndex + 1} of {questionList.length}
+              </span>
+            </div>
 
             <p className="mt-4 text-slate-400">{problem.description}</p>
 
@@ -269,10 +287,7 @@ Score: ${result.score}`);
                   value={language}
                   onChange={(e) => {
                     setLanguage(e.target.value);
-                    setOutput("Run your code to see output here.");
-                    setStats(null);
-                    setSubmission(null);
-                    setAiFeedback(null);
+                    resetQuestionState();
                   }}
                   className="rounded-lg border border-white/10 bg-slate-900 px-4 py-2 text-sm text-white outline-none"
                 >
@@ -289,7 +304,7 @@ Score: ${result.score}`);
                 >
                   {isRunning ? "Running..." : "Run Code"}
                 </button>
-                
+
                 <button
                   onClick={handleNextQuestion}
                   className="rounded-lg border border-indigo-500/30 px-4 py-2 text-sm text-indigo-300 hover:bg-indigo-500/10"
