@@ -84,10 +84,21 @@ function InterviewRoom() {
   const category = searchParams.get("category") || "dsa";
   const questionList = problems[category] || problems.dsa;
 
-  const [problem] = useState(() => {
+  const getRandomProblem = () => {
   const randomIndex = Math.floor(Math.random() * questionList.length);
   return questionList[randomIndex];
-});
+};
+
+  const [problem, setProblem] = useState(getRandomProblem);
+  const handleNextQuestion = () => {
+  setProblem(getRandomProblem());
+  setOutput("Run your code to see output here.");
+  setStats(null);
+  setSubmission(null);
+  setAiFeedback(null);
+};
+
+
   const feedback = feedbackTemplates[category] || feedbackTemplates.dsa;
 
   const [language, setLanguage] = useState("javascript");
@@ -277,6 +288,13 @@ Score: ${result.score}`);
                   className="rounded-lg border border-white/10 px-4 py-2 text-sm hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isRunning ? "Running..." : "Run Code"}
+                </button>
+                
+                <button
+                  onClick={handleNextQuestion}
+                  className="rounded-lg border border-indigo-500/30 px-4 py-2 text-sm text-indigo-300 hover:bg-indigo-500/10"
+                >
+                  Next Question
                 </button>
 
                 <button
