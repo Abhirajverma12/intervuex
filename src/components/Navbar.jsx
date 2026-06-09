@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { Menu, X } from "lucide-react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   const goToTop = () => {
     setIsMenuOpen(false);
@@ -34,9 +39,22 @@ function Navbar() {
             Interview Setup
           </Link>
 
-          <Link to="/login" className="hover:text-white">
-            Login
-          </Link>
+          <SignedOut>
+            <Link to="/login" className="hover:text-white">
+              Login
+            </Link>
+
+            <Link
+              to="/signup"
+              className="rounded-xl border border-indigo-500/40 px-4 py-2 text-indigo-300 hover:bg-indigo-500/10"
+            >
+              Sign Up
+            </Link>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
         </div>
 
         <div className="flex items-center gap-4">
@@ -46,6 +64,12 @@ function Navbar() {
           >
             Start Interview
           </Link>
+
+          <SignedIn>
+            <div className="md:hidden">
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          </SignedIn>
 
           <button
             className="md:hidden"
@@ -61,7 +85,7 @@ function Navbar() {
           <div className="flex flex-col gap-5 text-sm text-slate-300">
             <a
               href="/#platform"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
               className="hover:text-white"
             >
               Platform
@@ -69,7 +93,7 @@ function Navbar() {
 
             <a
               href="/#features"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
               className="hover:text-white"
             >
               Features
@@ -77,7 +101,7 @@ function Navbar() {
 
             <Link
               to="/dashboard"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
               className="hover:text-white"
             >
               Dashboard
@@ -85,23 +109,33 @@ function Navbar() {
 
             <Link
               to="/interview-setup"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
               className="hover:text-white"
             >
               Interview Setup
             </Link>
 
-            <Link
-              to="/login"
-              onClick={() => setIsMenuOpen(false)}
-              className="hover:text-white"
-            >
-              Login
-            </Link>
+            <SignedOut>
+              <Link
+                to="/login"
+                onClick={closeMenu}
+                className="hover:text-white"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/signup"
+                onClick={closeMenu}
+                className="rounded-xl border border-indigo-500/40 px-5 py-3 text-center text-sm font-medium text-indigo-300 hover:bg-indigo-500/10"
+              >
+                Sign Up
+              </Link>
+            </SignedOut>
 
             <Link
               to="/interview-setup"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
               className="mt-2 rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-medium hover:bg-indigo-500"
             >
               Start Interview
