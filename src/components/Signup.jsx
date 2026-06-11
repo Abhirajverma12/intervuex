@@ -9,7 +9,7 @@ function Signup() {
             routing="path"
             path="/signup"
             signInUrl="/login"
-            afterSignUpUrl="/dashboard"
+            fallbackRedirectUrl="/dashboard"
           />
         </div>
       </div>
