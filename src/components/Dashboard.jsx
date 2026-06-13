@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 const defaultInterviewHistory = [
   {
@@ -29,6 +30,7 @@ const defaultInterviewHistory = [
 ];
 
 function Dashboard() {
+  const { user } = useUser();
   const [interviewHistory] = useState(() => {
     const savedResults = JSON.parse(
       localStorage.getItem("interviewResults") || "[]"
@@ -64,12 +66,11 @@ function Dashboard() {
             </p>
 
             <h2 className="mt-3 text-4xl font-bold">
-              Manage your interview practice
+              Welcome back, {user?.firstName || "Coder"} 👋
             </h2>
 
             <p className="mt-4 max-w-2xl text-slate-400">
-              Track sessions, review performance, and quickly start new coding
-              interviews.
+              Logged in as {user?.primaryEmailAddress?.emailAddress}
             </p>
           </div>
 
