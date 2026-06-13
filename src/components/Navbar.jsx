@@ -65,12 +65,6 @@ function Navbar() {
             Start Interview
           </Link>
 
-          <SignedIn>
-            <div className="md:hidden">
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          </SignedIn>
-
           <button
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -132,6 +126,12 @@ function Navbar() {
                 Sign Up
               </Link>
             </SignedOut>
+
+            <SignedIn>
+              <div className="flex justify-center">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
 
             <Link
               to="/interview-setup"
