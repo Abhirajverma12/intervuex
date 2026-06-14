@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import Editor from "@monaco-editor/react";
 import { problems } from "../data/problems";
+
 
 const codeSnippets = {
   javascript: `function solve() {
@@ -81,6 +83,7 @@ const feedbackTemplates = {
 
 function InterviewRoom() {
   const [searchParams] = useSearchParams();
+  const { user } = useUser();
   const category = searchParams.get("category") || "dsa";
   const questionList = problems[category] || problems.dsa;
 
@@ -135,12 +138,16 @@ function InterviewRoom() {
   });
 
   const saveResultToStorage = (result) => {
+    if (!user) return;
+
+    const storageKey = `interviewResults_${user.id}`;
+
     const previousResults = JSON.parse(
-      localStorage.getItem("interviewResults") || "[]"
+      localStorage.getItem(storageKey) || "[]"
     );
 
     localStorage.setItem(
-      "interviewResults",
+      storageKey,
       JSON.stringify([result, ...previousResults])
     );
   };
@@ -189,7 +196,7 @@ Your Output: Mock output matched successfully`);
         score: result.score,
       });
 
-      saveResultToStorage(result);
+      
     }, 1200);
   };
 

@@ -1,14 +1,36 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 function AttemptDetails() {
+  const { user } = useUser();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const index = Number(searchParams.get("index") || 0);
 
-  const interviewResults = JSON.parse(
-    localStorage.getItem("interviewResults") || "[]"
-  );
+  const storageKey = user
+  ? `interviewResults_${user.id}`
+  : null;
+
+  const interviewResults =
+    user && storageKey
+      ? JSON.parse(localStorage.getItem(storageKey) || "[]")
+      : [];
 
   const attempt = interviewResults[index];
+  const handleDelete = () => {
+  if (!user || !storageKey) return;
+
+  const updatedResults = interviewResults.filter(
+    (_, i) => i !== index
+  );
+
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify(updatedResults)
+  );
+
+  navigate("/dashboard");
+};
 
   if (!attempt) {
     return (
@@ -53,6 +75,15 @@ function AttemptDetails() {
             Review your interview score, language, runtime, memory, and
             feedback.
           </p>
+
+          <div className="mt-6">
+            <button
+              onClick={handleDelete}
+              className="rounded-xl bg-red-600 px-5 py-3 text-sm font-medium hover:bg-red-500"
+            >
+              Delete Attempt
+            </button>
+          </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl bg-slate-900 p-4">

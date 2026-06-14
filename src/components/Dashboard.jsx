@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import React from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
@@ -31,14 +31,19 @@ const defaultInterviewHistory = [
 
 function Dashboard() {
   const { user } = useUser();
-  const [interviewHistory] = useState(() => {
-    const savedResults = JSON.parse(
-      localStorage.getItem("interviewResults") || "[]"
-    );
+  const storageKey = user
+  ? `interviewResults_${user.id}`
+  : null;
 
-    return savedResults.length > 0 ? savedResults : defaultInterviewHistory;
-  });
+  const savedResults =
+  user && storageKey
+    ? JSON.parse(localStorage.getItem(storageKey) || "[]")
+    : [];
 
+  const interviewHistory =
+    savedResults.length > 0
+      ? savedResults
+      : defaultInterviewHistory;
   const completedInterviews = interviewHistory.filter(
     (item) => item.status === "Completed"
   );
